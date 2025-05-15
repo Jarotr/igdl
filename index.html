@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Instagram Downloader</h1>
+    <input id="url" type="text" placeholder="Masukkan URL Instagram">
+    <button id="download">Download</button>
+    <div id="result"></div>
+
+    <script type="module">
+        import { instagramdl } from 'https://cdn.jsdelivr.net/npm/@bochilteam/scraper@latest/dist/index.min.js';
+
+        const urlInput = document.getElementById('url');
+        const downloadButton = document.getElementById('download');
+        const resultDiv = document.getElementById('result');
+
+        downloadButton.addEventListener('click', async () => {
+            const url = urlInput.value;
+            try {
+                const result = await instagramdl(url);
+                if (result) {
+                    resultDiv.innerHTML = `
+                        <img src="${result.thumbnail}" alt="Instagram Image">
+                        <a href="${result.url}" download>Download</a>
+                    `;
+                } else {
+                    resultDiv.innerText = 'Gagal mendownload';
+                }
+            } catch (error) {
+                console.error(error);
+                resultDiv.innerText = 'Terjadi kesalahan';
+            }
+        });
+    </script>
+</body>
+</html>
